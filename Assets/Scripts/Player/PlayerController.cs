@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.Windows;
 
@@ -14,15 +15,20 @@ public class PlayerController : MonoBehaviour
     private Vector3 camForward;
     private Vector3 camRight;
 
+    private bool isExploring;
+    private int stepCounter = 0;
+
+    public Action<GameObject[]> OnSetBattlePJ;
+    public Action OnStartBattle;
+
     private void Awake()
     {
         rigidBody = GetComponent<Rigidbody>();
         playerInput = GetComponent<PlayerInput>();
         playerModel = GetComponent<PlayerModel>();
         playerView = GetComponent<PlayerView>();
-        AssignEvents();
     }
-    
+
 
     private void AssignEvents()
     {
@@ -32,8 +38,42 @@ public class PlayerController : MonoBehaviour
         playerInput.OnInteract += Interact;
         playerInput.OnMouseMoveX += ManageRotationX;
         playerInput.OnMouseMoveY += ManageRotationY;
+        GameManager.Instance.OnEndBattle += ReturnToExplore;
         //playerInput.OnPauseTogglePerformed += playerView.TogglePauseMenu;
         //playerView.OnAttackStateChanged += OnAttackStateChanged;
+    }
+
+    private void UnassignEvents()
+    {
+        playerInput.OnMovePerformed -= OnMovePerformed;
+        playerInput.OnMoveCanceled -= OnMoveCanceled;
+        playerInput.OnSprint -= OnSprint;
+        playerInput.OnInteract -= Interact;
+        playerInput.OnMouseMoveX -= ManageRotationX;
+        playerInput.OnMouseMoveY -= ManageRotationY;
+        GameManager.Instance.OnEndBattle -= ReturnToExplore;
+        //playerInput.OnPauseTogglePerformed -= playerView.TogglePauseMenu;
+        //playerView.OnAttackStateChanged -= OnAttackStateChanged;
+    }
+
+    private void Start()
+    {
+        OnSetBattlePJ?.Invoke(GetPjs());
+        EnterInDungeon();
+    }
+
+    public void EnterInDungeon()
+    {
+        stepCounter = (int) UnityEngine.Random.Range(0f, 100f);
+        SetExploring(true);
+        AssignEvents();
+        transform.position = new Vector3(4.4f,1.23f,11f);
+    }
+
+    public void ExitDungeon()
+    {
+        SetExploring(false);
+        UnassignEvents();
     }
 
     private void OnMovePerformed(Vector2 direction)
@@ -48,7 +88,11 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        PerformMovement();
+        if(isExploring)
+        {
+            PerformMovement();
+        }
+        
     }
 
     private void PerformMovement()
@@ -59,7 +103,15 @@ public class PlayerController : MonoBehaviour
 
         moveDirection.y = 0f;
 
+        var auxPos = rigidBody.position;
+
         rigidBody.MovePosition(rigidBody.position + moveDirection * Time.fixedDeltaTime);
+
+        if (auxPos != rigidBody.position)
+        {
+            Debug.Log("steps: " + stepCounter);
+            RandomEncounter();
+        }
     }
 
     private void ManageRotationX(float amount)
@@ -84,5 +136,34 @@ public class PlayerController : MonoBehaviour
     {
     }
 
+    public GameObject[] GetPjs()
+    {
+        return playerModel.pjs;
+    }
 
+    public void SetExploring(bool exploring)
+    {
+        isExploring = exploring;
+    }
+
+    private void RandomEncounter()
+    {
+        if (stepCounter <= 0)
+        {
+            stepCounter = (int)UnityEngine.Random.Range(1f, 400f);
+            OnStartBattle?.Invoke();
+            mainCamera.gameObject.SetActive(false);
+            SetExploring(false);
+        }
+        else
+        {
+            stepCounter--;
+        }
+    }
+
+    private void ReturnToExplore()
+    {
+        mainCamera.gameObject.SetActive(true);
+        SetExploring(true);
+    }
 }

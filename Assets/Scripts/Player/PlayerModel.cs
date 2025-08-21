@@ -10,6 +10,8 @@ public class PlayerModel : MonoBehaviour
     [SerializeField] private float defaultAcceleration = 1f;
     [SerializeField] private float sprintAcceleration = 2f;
 
+    public GameObject[] pjs;
+
     public Vector3 CalculateLocalVelocity(Vector2 input)
     {
         Vector3 direction = new Vector3(input.x, 0f, input.y);
