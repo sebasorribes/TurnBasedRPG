@@ -231,7 +231,8 @@ public class BattleManager : MonoBehaviour
 
     private void CreateEnemies()
     {
-        GameObject[] enemies = new GameObject[UnityEngine.Random.Range(1, 5)];
+        //GameObject[] enemies = new GameObject[UnityEngine.Random.Range(1, 5)];
+        GameObject[] enemies = new GameObject[UnityEngine.Random.Range(1, 2)];
 
         for (int i = 0; i < enemies.Length; i++)
         {

@@ -16,7 +16,12 @@ public class PlayerController : MonoBehaviour
     private Vector3 camRight;
 
     private bool isExploring;
+
+    private float maxStepsInterval = 100f;
     private int stepCounter = 0;
+    private Vector3 lastPosition;
+
+    private int stepDistanceThreshold = 1;
 
     public Action<GameObject[]> OnSetBattlePJ;
     public Action OnStartBattle;
@@ -64,10 +69,12 @@ public class PlayerController : MonoBehaviour
 
     public void EnterInDungeon()
     {
-        stepCounter = (int) UnityEngine.Random.Range(0f, 100f);
+        Cursor.lockState = CursorLockMode.Locked;
+        stepCounter = (int) UnityEngine.Random.Range(1f, maxStepsInterval);
         SetExploring(true);
         AssignEvents();
         transform.position = new Vector3(4.4f,1.23f,11f);
+        lastPosition = transform.position;
     }
 
     public void ExitDungeon()
@@ -103,25 +110,28 @@ public class PlayerController : MonoBehaviour
 
         moveDirection.y = 0f;
 
-        var auxPos = rigidBody.position;
-
         rigidBody.MovePosition(rigidBody.position + moveDirection * Time.fixedDeltaTime);
 
-        if (auxPos != rigidBody.position)
+        float distanceTraveled = Vector3.Distance(lastPosition, rigidBody.position);
+
+        if (distanceTraveled >= stepDistanceThreshold)
         {
-            Debug.Log("steps: " + stepCounter);
+            lastPosition = rigidBody.position;
             RandomEncounter();
         }
     }
 
     private void ManageRotationX(float amount)
     {
+        if(!isExploring) return;
         Quaternion newRotation = playerModel.UpdateYawRotationX(amount);
 
         transform.rotation = newRotation;
     }
     private void ManageRotationY(float amount)
     {
+        if (!isExploring) return;
+
         Quaternion newRotation = playerModel.UpdateYawRotationY(-amount);
 
         mainCamera.transform.rotation = newRotation;
@@ -148,21 +158,20 @@ public class PlayerController : MonoBehaviour
 
     private void RandomEncounter()
     {
+        stepCounter--;
         if (stepCounter <= 0)
         {
-            stepCounter = (int)UnityEngine.Random.Range(1f, 400f);
+            stepCounter = (int)UnityEngine.Random.Range(1f, maxStepsInterval);
             OnStartBattle?.Invoke();
             mainCamera.gameObject.SetActive(false);
             SetExploring(false);
-        }
-        else
-        {
-            stepCounter--;
+            Cursor.lockState = CursorLockMode.None;
         }
     }
 
     private void ReturnToExplore()
     {
+        Cursor.lockState = CursorLockMode.Locked;
         mainCamera.gameObject.SetActive(true);
         SetExploring(true);
     }
