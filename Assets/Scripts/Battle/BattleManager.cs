@@ -1,3 +1,4 @@
+using Assets.Scripts.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -124,7 +125,6 @@ public class BattleManager : MonoBehaviour
         {
             pj.OnSelected -= SetPjObjective;
         }
-        entities.RemoveAll(pj => !pj.CompareTag("PlayerPj"));
         foreach (var entity in enemyPjsPos)
         {
             if(entity.transform.childCount > 0)
@@ -136,6 +136,24 @@ public class BattleManager : MonoBehaviour
         actualTurnIndex = 0;
         ActivateDesactivateCameraAndHUD(false);
         OnEndedBattle?.Invoke();
+        if(entities.Where(p => p.CompareTag("EnemyPj") && p.IsAlive()).ToArray().Length <= 0)
+        {
+            float totalExp = entities.Where(p => p.CompareTag("EnemyPj"))
+                                      .Sum(p => p.GetComponent<IGiveExperience>().OnGetExperiencePoints());
+
+            foreach (var pj in entities)
+            {
+                if (pj.CompareTag("PlayerPj") && pj.IsAlive())
+                {
+                    pj.GetComponent<IGainExperience>().GainExp(totalExp);
+                }
+            }
+        }
+        else
+        {
+
+        }
+        entities.RemoveAll(pj => !pj.CompareTag("PlayerPj"));
     }
 
     public void SetOrder()

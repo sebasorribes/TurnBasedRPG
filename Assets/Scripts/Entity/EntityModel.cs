@@ -5,20 +5,21 @@ public class EntityModel : MonoBehaviour
 {
     public float maxHealth;
     public float currentHealth;
+
     protected float maxMana;
     protected float currentMana;
+
     protected int level;
+
+    protected ScriptableBaseStats baseStats;
+
     protected int attackStat;
     protected int defenseStat;
     protected int speedStat;
     protected int accuracyStat;
+
     protected bool isAlive;
     public Action OnDie;
-
-    public void LevelUp()
-    {
-        level++;
-    }
 
     public void TakeDamage(float amount)
     {
@@ -54,14 +55,21 @@ public class EntityModel : MonoBehaviour
         OnDie?.Invoke();
     }
 
-    public void BuildModel(ScriptableBaseStats baseStats)
+
+    //pasar estos valores base a la actualizacion de stats porque sino no tiene sentido
+    public virtual void BuildModel(ScriptableBaseStats baseStats)
     {
+        this.baseStats = baseStats;
+
         maxHealth = baseStats.MaxHealth;
         currentHealth = maxHealth;
         maxMana = baseStats.MaxMana;
         currentMana = maxMana;
+
         level = 1;
+
         isAlive = true;
+         
         attackStat = baseStats.AttackStat;
         defenseStat = baseStats.DefenseStat;
         speedStat = baseStats.SpeedStat;
@@ -71,5 +79,10 @@ public class EntityModel : MonoBehaviour
     public bool GetIsAlive()
     {
         return isAlive;
+    }
+
+    protected virtual void UpStats()
+    {
+
     }
 }

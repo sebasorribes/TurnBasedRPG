@@ -14,7 +14,7 @@ public class EntityController : MonoBehaviour
     public Action<bool> OnActiveturnIndicator;
     public Action<EntityController> OnSelected;
 
-    protected void Awake()
+    protected virtual void Awake()
     {
         model = GetComponent<EntityModel>();
         view = GetComponent<EntityView>();
@@ -52,11 +52,6 @@ public class EntityController : MonoBehaviour
     public void SpecialAttack()
     {
 
-    }
-
-    public void LevelUp()
-    {
-        model.LevelUp();
     }
 
     public float GetCurrentHealth()

@@ -22,7 +22,13 @@ public class DungeonGenerator2 : MonoBehaviour
 
     public int chestAmount;
 
-    void Start()
+    private void Start()
+    {
+        GameManager.Instance.OnStartExploring += CreateDungeon;
+        GameManager.Instance.OnEndExploring += ClearDungeon;
+    }
+
+    public void CreateDungeon()
     {
         GenerateDungeon();
         InstantiateDungeon();
@@ -205,5 +211,14 @@ public class DungeonGenerator2 : MonoBehaviour
                 chestPlaced++;
             }
         }
+    }
+
+    public void ClearDungeon()
+    {
+        foreach (Transform child in transform)
+        {
+            Destroy(child.gameObject);
+        }
+        dungeonMap.Clear();
     }
 }

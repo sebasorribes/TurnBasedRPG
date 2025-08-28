@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff3ae50c38bd4364a8916705e692102c, type: 3}
   m_Name: KnightBaseStats
   m_EditorClassIdentifier: 
-  maxHealth: 120
-  maxMana: 60
-  attackStat: 20
-  defenseStat: 4
-  speedStat: 4
+  maxHealth: 300
+  maxMana: 50
+  attackStat: 10
+  defenseStat: 20
+  speedStat: 10
   accuracyStat: 100

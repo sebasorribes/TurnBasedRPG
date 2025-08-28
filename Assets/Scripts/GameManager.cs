@@ -11,6 +11,12 @@ public class GameManager : MonoBehaviour
     public Action OnStartBattle;
     public Action OnEndBattle;
 
+    public Action OnStartExploring;
+    public Action OnEndExploring;
+
+    //TO DO: despues cambiar el lugar donde esta el manejo de las interfaces
+    [SerializeField] private GameObject preparationMenu;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -23,7 +29,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
         AssignEvents();
     }
@@ -55,5 +61,17 @@ public class GameManager : MonoBehaviour
     private void EndBattle()
     {
         OnEndBattle?.Invoke();
+    }
+
+    public void StartExploring()
+    {
+        preparationMenu.SetActive(false);
+        OnStartExploring?.Invoke();
+    }
+
+    public void EndExploring()
+    {
+        OnEndExploring?.Invoke();
+        preparationMenu.SetActive(true);
     }
 }
