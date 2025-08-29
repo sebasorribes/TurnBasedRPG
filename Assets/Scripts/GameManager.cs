@@ -7,6 +7,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private PlayerController playerController;
 
+    private Difficulty difficulty;
+
     public Action<GameObject[]> OnSetBattlePJ;
     public Action OnStartBattle;
     public Action OnEndBattle;
@@ -31,7 +33,13 @@ public class GameManager : MonoBehaviour
 
     private void OnEnable()
     {
+        AssingButtons();
         AssignEvents();
+    }
+
+    private void AssingButtons()
+    {
+        preparationMenu.transform.GetChild(1).GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(() => StartExploring(new EasyDifficulty()));
     }
 
     private void AssignEvents()
@@ -63,8 +71,9 @@ public class GameManager : MonoBehaviour
         OnEndBattle?.Invoke();
     }
 
-    public void StartExploring()
+    public void StartExploring(Difficulty explorationDifficulty)
     {
+        difficulty = explorationDifficulty;
         preparationMenu.SetActive(false);
         OnStartExploring?.Invoke();
     }
@@ -74,4 +83,6 @@ public class GameManager : MonoBehaviour
         OnEndExploring?.Invoke();
         preparationMenu.SetActive(true);
     }
+
+    public Difficulty GetDifficulty() { return difficulty; }
 }

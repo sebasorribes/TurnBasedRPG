@@ -14,7 +14,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private Camera battleCamera;
     [SerializeField] private GameObject battleHUD;
 
-    private List<EntityController> entities = new();
+    private List<EntityController> entities = new List<EntityController>();
 
     [SerializeField] private GameObject[] playerPjsPos;
     [SerializeField] private GameObject[] enemyPjsPos;
@@ -48,7 +48,14 @@ public class BattleManager : MonoBehaviour
 
     private void Start()
     {
+        AssingButtons();
         AssignEvents();
+    }
+
+    private void AssingButtons()
+    {
+        actionButtons.transform.GetChild(0).GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(() => ActionSelected(new Attack()));
+        actionButtons.transform.GetChild(1).GetComponentInChildren<UnityEngine.UI.Button>().onClick.AddListener(() => ActionSelected(new Defend()));
     }
 
     private void AssignEvents()
@@ -80,6 +87,7 @@ public class BattleManager : MonoBehaviour
                 foreach (var pj in PJs)
                 {
                     GameObject auxPj= Instantiate(pj, enemyPjsPos[i].transform.position, enemyPjsPos[i].transform.rotation, enemyPjsPos[i].transform);
+                    auxPj.GetComponent<ISetLevel>().OnSetLevel(GameManager.Instance.GetDifficulty().GetEnemyLevel());
                     entities.Add(auxPj.GetComponent<EntityController>());
                     i++;
                 }
@@ -250,11 +258,11 @@ public class BattleManager : MonoBehaviour
     private void CreateEnemies()
     {
         //GameObject[] enemies = new GameObject[UnityEngine.Random.Range(1, 5)];
-        GameObject[] enemies = new GameObject[UnityEngine.Random.Range(1, 2)];
+        GameObject[] enemies = new GameObject[UnityEngine.Random.Range(1, 3)];
 
         for (int i = 0; i < enemies.Length; i++)
         {
-            enemies[i] = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)].gameObject;
+            enemies[i] = enemyPrefab[UnityEngine.Random.Range(0, enemyPrefab.Length)];
         }
         SetEntitiesInBattlePositions(enemies);
     }

@@ -15,6 +15,6 @@ MonoBehaviour:
   maxHealth: 60
   maxMana: 120
   attackStat: 5
-  defenseStat: 4
+  defenseStat: 1
   speedStat: 3
   accuracyStat: 100

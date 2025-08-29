@@ -131,7 +131,6 @@ GameObject:
   - component: {fileID: 72320586}
   - component: {fileID: 72320585}
   - component: {fileID: 72320584}
-  - component: {fileID: 72320583}
   m_Layer: 0
   m_Name: DefendButton
   m_TagString: Untagged
@@ -159,18 +158,6 @@ RectTransform:
   m_AnchoredPosition: {x: -80.400024, y: 3.3000488}
   m_SizeDelta: {x: 60, y: 20}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &72320583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 72320581}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4f64d33400c7c644baa66871ece01c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &72320584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,19 +201,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 72320585}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 776059525}
-        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
-        m_MethodName: ActionSelected
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 72320583}
-          m_ObjectArgumentAssemblyTypeName: BattleActions, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &72320585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,7 +252,6 @@ GameObject:
   - component: {fileID: 413946283}
   - component: {fileID: 413946282}
   - component: {fileID: 413946281}
-  - component: {fileID: 413946284}
   m_Layer: 0
   m_Name: AttackButton
   m_TagString: Untagged
@@ -348,19 +322,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 413946282}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 776059525}
-        m_TargetAssemblyTypeName: BattleManager, Assembly-CSharp
-        m_MethodName: ActionSelected
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 413946284}
-          m_ObjectArgumentAssemblyTypeName: BattleActions, Assembly-CSharp
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: Attack
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &413946282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,18 +361,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 413946279}
   m_CullTransparentMesh: 1
---- !u!114 &413946284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413946279}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa5715e5e723f4648a64a35104e2d6cc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &542873182
 GameObject:
   m_ObjectHideFlags: 0

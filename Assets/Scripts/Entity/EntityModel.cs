@@ -23,7 +23,7 @@ public class EntityModel : MonoBehaviour
 
     public void TakeDamage(float amount)
     {
-        float aux = amount - defenseStat;
+        float aux = Mathf.Max(amount - defenseStat,0);
         currentHealth = Mathf.Max(currentHealth - aux, 0);
         if (currentHealth <= 0)
         {
@@ -49,14 +49,16 @@ public class EntityModel : MonoBehaviour
         return speedStat;
     }
 
+    public int GetLevel()
+    {
+        return level;
+    }
     protected void Die()
     {
         isAlive = false;
         OnDie?.Invoke();
     }
 
-
-    //pasar estos valores base a la actualizacion de stats porque sino no tiene sentido
     public virtual void BuildModel(ScriptableBaseStats baseStats)
     {
         this.baseStats = baseStats;

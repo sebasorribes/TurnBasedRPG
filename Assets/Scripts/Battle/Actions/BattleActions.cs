@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public abstract class BattleActions : MonoBehaviour
+public abstract class BattleActions
 {
     public abstract void Action(EntityController target, EntityController attacker);
 }

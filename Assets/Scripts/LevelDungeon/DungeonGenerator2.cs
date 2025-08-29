@@ -30,9 +30,18 @@ public class DungeonGenerator2 : MonoBehaviour
 
     public void CreateDungeon()
     {
+        SetMinMaxRooms();
         GenerateDungeon();
         InstantiateDungeon();
         InstantiateObjectsInRooms();
+    }
+
+    //agregar cofres y demas por la dificultad
+    private void SetMinMaxRooms()
+    {
+        Difficulty difficulty = GameManager.Instance.GetDifficulty();
+        minRooms = difficulty.GetDungeonLength()[0];
+        maxRooms = difficulty.GetDungeonLength()[1];
     }
 
     void GenerateDungeon()
